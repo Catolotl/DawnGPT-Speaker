@@ -1,261 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DawnGPT 1o Mini</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #000000;
-}
-
-#response {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #FFFFFF;
-    text-align: center;
-}
-
-title {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #6200ea;
-    text-align: center;
-}
-
-#shoppingList {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #FFFFFF;
-    text-align: center;
-    white-space: pre-wrap;
-}
-
-#timerDisplay {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #FFFFFF;
-    font-weight: normal;
-    display: none;
-}
-</style>
+	<meta charset="UTF-8">
+	<title>GhostAI - Download</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1 style="color: #6200ea;">DawnGPT 1o Mini</h1>
-<p style="color: #FFFFFF;">Listening for "Hey Dawn"</p>
-<div id="response" style="font-weight: bold; ">Waiting for activation...</div>
-<div id="shoppingList"></div>
-<div id="timerDisplay">Timer: Not active</div>
+    <h1>Download GhostAI</h1>
+	<a href="Ghost_With_Visuals.html" download="GhostAI">
+		Download
+	</a>
+	<p>Download Ghost 2o mini aw3 for Mac</p>
+    <a href="Ghost_With_Visuals.html" download="GhostAI">
+		Download
+	</a>
+	<p>Download Ghost 2o mini aw3 for Windows</p>
 
-<script>
-if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.continuous = true;
+	<a href="README.md" class="btn-2" download="README">
+		Download
+	</a>
+	<p>Settup instructions, debug and features</p>
 
-    let isActive = false;
-    let commandTimeout;
-    let shoppingList = [];
-    let timerId = null;
-    let timerDuration = 0; // Timer duration in seconds
-    let timerRemaining = 0; // Remaining time for the timer
-
-    const triggerWords = ["hey dawn", "hey don", "don", "dawn"];
-    const responses = {
-        "what is your name": "My name is DawnGPT 1o Mini, a Virtual assistant.",
-        "how are you": "I'm just a bunch of code, but I'm running smoothly!",
-        "tell me a joke": "Why did the computer go to the doctor? It had a virus!",
-        "goodbye": "Goodbye! Have a great day!",
-        "what is roblox": "Roblox is an online game platform that allows users to program and play games created by themselves or others.",
-        "what time is it": () => new Date().toLocaleTimeString(),
-        "what is today's date": () => new Date().toLocaleDateString(),
-        "good morning": "Good morning! Have a great start to your day!",
-        "good night": "Good night! Sleep tight!",
-        "tell me a random fact": "Did you know that honey never spoils? Archaeologists have found pots of honey in ancient tombs that are over 3,000 years old!",
-        "you're an idiot": "Womp to the power of 2",
-        "what's X plus Y": (spokenText) => {
-            const match = spokenText.match(/what's (\d+) plus (\d+)/);
-            if (match) {
-                const sum = parseInt(match[1]) + parseInt(match[2]);
-                return `The result of ${match[1]} plus ${match[2]} is ${sum}.`;
-            }
-            return "Sorry, I couldn't understand the math question.";
-        },
-        "can you help me": "Of course! I can help you with a variety of tasks. Just tell me what you'd like to do!"
-    };
-
-    let voices = [];
-    function loadVoices() {
-        voices = speechSynthesis.getVoices();
-    }
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = loadVoices;
-    } else {
-        loadVoices();
-    }
-
-    function speak(text) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = "en-US";
-        utterance.pitch = 1;
-        utterance.rate = 1;
-        const maleVoice = voices.find(voice => voice.name.includes("Male") || voice.name.includes("Google US English Male"));
-        utterance.voice = maleVoice || voices[0];
-        speechSynthesis.speak(utterance);
-    }
-
-    function updateTimerDisplay() {
-        const timerDisplay = document.getElementById("timerDisplay");
-        if (timerRemaining > 0) {
-            const minutesLeft = Math.floor(timerRemaining / 60);
-            const secondsLeft = timerRemaining % 60;
-            timerDisplay.textContent = `Timer: ${minutesLeft}m ${secondsLeft}s remaining`;
-            timerDisplay.style.display = "block"; // Show timer
-        } else {
-            timerDisplay.style.display = "none"; // Hide timer when it's done
-        }
-    }
-
-    function handleCommand(spokenText) {
-        const responseDiv = document.getElementById("response");
-        const shoppingListDiv = document.getElementById("shoppingList");
-
-        let responseText = "I'm sorry, I don't understand that.";
-
-        // Handle shopping list commands
-        if (spokenText.startsWith("add ") && spokenText.includes(" to my shopping list")) {
-// Extract the item between "add " and " to my shopping list"
-    const item = spokenText.replace("add ", "").replace(" to my shopping list", "").trim();
-    shoppingList.push(item); // Add the item to the shopping list
-    responseText = `You added "${item}" to your shopping list.`; // Reply without redundancy
-        } else if (spokenText.startsWith("remove ")) {
-            const item = spokenText.replace("remove ", "").trim();
-            const index = shoppingList.indexOf(item);
-            if (index > -1) {
-                shoppingList.splice(index, 1);
-                responseText = `"${item}" has been removed from your shopping list.`;
-            } else {
-                responseText = `"${item}" is not on your shopping list.`;
-            }
-        } else if (spokenText === "what is on my shopping list" || spokenText === "read my shopping list") {
-            if (shoppingList.length > 0) {
-                responseText = "Here is your shopping list: " + shoppingList.join(", ");
-            } else {
-                responseText = "Your shopping list is empty.";
-                shoppingListDiv.textContent = "";
-            }
-        } else if (spokenText.startsWith("set a timer for")) {
-            const match = spokenText.match(/set a timer for (\d+) minutes/)||spokenText.match(/set a timer for (\d+) minute/);
-            if (match) {
-                const minutes = parseInt(match[1]);
-                timerDuration = minutes * 60; // Convert minutes to seconds
-                timerRemaining = timerDuration;
-                if (timerId) {
-                    clearInterval(timerId);
-                }
-                timerId = setInterval(() => {
-                    if (timerRemaining > 0) {
-                        timerRemaining--;
-                        updateTimerDisplay();
-                    } else {
-                        clearInterval(timerId);
-                        timerId = null;
-                        responseText = "Time's up!";
-                        speak(responseText);
-                        updateTimerDisplay();
-                    }
-                }, 1000);
-                responseText = `Timer set for ${minutes} minute(s).`;
-                updateTimerDisplay();
-            }
-        } else if (spokenText === "how much time is left on the timer") {
-            if (timerId) {
-                const minutesLeft = Math.floor(timerRemaining / 60);
-                const secondsLeft = timerRemaining % 60;
-                responseText = `There are ${minutesLeft} minutes and ${secondsLeft} seconds left on the timer.`;
-            } else {
-                responseText = "There is no active timer.";
-            }
-        } else if (spokenText === "cancel the timer") {
-            if (timerId) {
-                clearInterval(timerId);
-                timerId = null;
-                timerRemaining = 0;
-                responseText = "The timer has been canceled.";
-                updateTimerDisplay();
-            } else {
-                responseText = "There is no active timer to cancel.";
-            }
-        } else if (responses[spokenText]) {
-            responseText = typeof responses[spokenText] === "function" ? responses[spokenText](spokenText) : responses[spokenText];
-        }
-
-        responseDiv.textContent = responseText;
-        speak(responseText);
-    }
-
-    // Start recognition
-    navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(() => {
-            recognition.onresult = (event) => {
-                const spokenText = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
-                console.log("Recognized: ", spokenText); // Debugging log
-                const responseDiv = document.getElementById("response");
-
-                if (!isActive) {
-                    if (triggerWords.includes(spokenText)) {
-                        isActive = true;
-                        responseDiv.textContent = "I'm listening for your command!";
-                        speak("I'm listening.");
-                        clearTimeout(commandTimeout);
-                        commandTimeout = setTimeout(() => {
-                            isActive = false;
-                            responseDiv.textContent = "Listening for 'Hey Dawn'...";
-                        }, 10000);
-                    }
-                } else {
-                    handleCommand(spokenText);
-                    clearTimeout(commandTimeout);
-                    commandTimeout = setTimeout(() => {
-                        isActive = false;
-                        responseDiv.textContent = "Listening for 'Hey Dawn'...";
-                    }, 10000);
-                }
-            };
-
-            recognition.onerror = (event) => {
-                console.error("Speech Recognition Error:", event.error);
-                const responseDiv = document.getElementById("response");
-                responseDiv.textContent = "Error in recognition: " + event.error;
-                speak("Error in recognition.");
-            };
-
-            recognition.onend = () => {
-                console.log("Recognition ended, restarting...");
-                recognition.start(); // Restart recognition for continuous listening
-            };
-
-            recognition.start();
-        })
-        .catch((error) => {
-            console.error("Microphone access denied:", error);
-            alert("Please allow microphone access to use the assistant.");
-        });
-
-} else {
-    alert("Your browser does not support speech recognition. Please use a compatible browser.");
+    <style>
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
-</script>
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex-direction: column;
+	font-family: sans-serif;
+}
+a {
+	display: block;
+	background: #00A9D4;
+	color: #fff;
+	padding: 15px;
+	cursor: pointer;
+	text-decoration: none;
+	width: 320px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 20px;
+}
+a:hover {
+	background: #00729D;
+}
+.btn-2 {
+	background: #F98909;
+}
 
+.btn-2:hover {
+	background: #DC6C11;
+}
+p {
+	color: #888;
+	padding: 15px;
+}
+h1 {
+	padding: 15px;
+}
+    </style>
 </body>
 </html>
