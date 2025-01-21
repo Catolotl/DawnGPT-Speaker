@@ -65,7 +65,7 @@
 </head>
 <body>
   <div id="head" style="font-weight: bold;">Ghost</div>
-  <div id="response">Listening for "Hey Ghost"</div>
+  <div id="response">Welcome to GhostAI, Education Edition 2025.</div>
   <div id="shoppingList"></div>
   <div id="timerDisplay">Timer: Not active</div>
   
@@ -84,28 +84,24 @@
     "test": "Ghost A I, and FoxCat Studios 2025, All rights reserved",
     "reboot": "Ghost A I, and FoxCat Studios 2025, All rights reserved",
 
-    "what is your name": "My name is Ghost, a Virtual assistant.",
+    "what is your name": "My name is Ghost, a Virtual assistant. You are running the education edition of GhostAI 2025",
     "how are you": "I'm just a bunch of code, but I'm running smoothly!",
-    "tell me a joke": "Why did the computer go to the doctor? It had a virus!",
     "goodbye": "Goodbye! Have a great day!",
-    "what is roblox": "Roblox is an online game platform that allows users to program and play games created by themselves or others.",
     "what time is it": () => new Date().toLocaleTimeString(),
     "what is today's date": () => new Date().toLocaleDateString(),
     "good morning": "Good morning! Have a great start to your day!",
     "good night": "Good night! Sleep tight!",
-    "tell me a random fact": "Did you know that honey never spoils? Archaeologists have found pots of honey in ancient tombs that are over 3,000 years old!",
     "what is your favorite movie": "Terminator",
     "can you play music": "I cannot play music, but I can do many other things!",
     "hey ghost": "Yes?",
     "ghost": "Yes?",
-    "i'm sorry i don't understand that": " ",
+    "i'm sorry please only ask questions about your classes": " ",
     "who is you'r creator": "I was carefully crafted by Roberto Estrada.",
     "laugh": "hehehehehehehehehe",
-    "how much risk does alex have": "100% W Rizz",
+    
+    "can you help me": "Of course! I can help you with a variety of tasks! Ask a question about anything school related",
 
-    "tell me a random recipe": "Ok! Here is a recipe for Caprese Salad. Combine 2 large tomatoes, sliced, with 8 oz fresh mozzarella cheese, sliced, in a large bowl. Add a handful of fresh basil leaves, either whole or chopped, and drizzle with 2 tablespoons of extra virgin olive oil and 1 tablespoon of balsamic vinegar. Season with salt and pepper to taste and gently toss the ingredients together. For added flavor, you can sprinkle some balsamic glaze on top. Serve immediately as a refreshing side dish or light appetizer. Enjoy the fresh and vibrant flavors of this simple Italian classic!",
-
-    "can you help me": "Of course! I can help you with a variety of tasks!"
+    "help": "If you need to call emergency services, call 911.",
   };
 
   // Microphone Visualizer Code
@@ -158,7 +154,7 @@
     // Draw the pulsing circle with a more visible color
     ctx.beginPath();
     ctx.arc(centerX, centerY, pulseRadius, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;  // Changed color to black                                                    :)))))))
+    ctx.fillStyle = `rgba(0, 255, 0, ${opacity})`;  // Changed color to black                                                    :)))))))
     ctx.fill();
   }
 
@@ -180,9 +176,9 @@
     let isActive = false;
     let commandTimeout;
 
-    let shoppingList = [];
-
     let reminders = [];
+
+    let classes = [];
 
     let timerId = null;
     let timerDuration = 0;
@@ -212,7 +208,7 @@
 
     function handleCommand(spokenText) {
       const responseDiv = document.getElementById("response");
-      let responseText = "I'm sorry, I don't understand that.";
+      let responseText = "I'm sorry, Please only ask questions about your classes.";
 
       // Timer Handling
       if (spokenText.includes("set a timer")) {
@@ -241,24 +237,6 @@
         timerRemaining = 0;
         responseText = "Timer stopped.";
       }
-
-      // Shopping List Handling
-      else if (spokenText === "what is on my shopping list") {
-        responseText = shoppingList.length > 0 ? "Here is your shopping list: " + shoppingList.join(", ") : "Your shopping list is empty.";
-      } else if (spokenText.startsWith("add ") && spokenText.includes(" to my shopping list")) {
-        const item = spokenText.replace("add ", "").replace(" to my shopping list", "").trim();
-        shoppingList.push(item);
-        responseText = `You added "${item}" to your shopping list.`;
-      } else if (spokenText.startsWith("remove ") && spokenText.includes(" from my shopping list")) {
-        const item = spokenText.replace("remove ", "").replace(" from my shopping list", "").trim();
-        const index = shoppingList.indexOf(item);
-        if (index !== -1) {
-          shoppingList.splice(index, 1);
-          responseText = `You removed "${item}" from your shopping list.`;
-        } else {
-          responseText = `"${item}" is not on your shopping list.`;
-        }
-      }
       // Reminders handling
       else if (spokenText === "what are my reminders") {
         responseText = reminders.length > 0 ? "Here are your reminders: " + reminders.join(", ") : "You have no reminders.";
@@ -276,6 +254,25 @@
           responseText = `"${item}" is not on your reminders.`;
         }
       }
+
+      // Classes
+      else if (spokenText === "what are my classes") {
+        responseText = reminders.length > 0 ? "Here are your Classes: " + reminders.join(", ") : "You have no Classes.";
+      } else if (spokenText.startsWith("add ") && spokenText.includes(" to my classes")) {
+        const item = spokenText.replace("add ", "").replace(" to my classes", "").trim();
+        reminders.push(item);
+        responseText = `You added "${item}" to your classes.`;
+      } else if (spokenText.startsWith("remove ") && spokenText.includes(" from my classes")) {
+        const item = spokenText.replace("remove ", "").replace(" from my classes", "").trim();
+        const index = reminders.indexOf(item);
+        if (index !== -1) {
+          reminders.splice(index, 1);
+          responseText = `You removed "${item}" from your classes.`;
+        } else {
+          responseText = `"${item}" is not on your classes.`;
+        }
+      }
+
       // Image
       else if (spokenText.startsWith("generate an image of a ")) {
         const image = spokenText.replace("generate an image of a ", "").trim();
@@ -285,6 +282,16 @@
         const image = spokenText.replace("generate an image of an ", "").trim();
         responseText = `I cannot generate an image of an ${image} at the moment.`;
       }
+
+        // Music
+        else if (spokenText.startsWith("play ")) {
+          const music = spokenText.replace("play ", "").trim();
+          responseText = `I cannot play ${music} at the moment.`;
+        }
+        else if (spokenText.startsWith("play the song ")) {
+          const music = spokenText.replace("play the song ", "").trim();
+          responseText = `I cannot play the song ${music} at the moment.`;
+       }
 
       // Answer pre-defined responses
       else if (responses[spokenText]) {
