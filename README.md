@@ -1,5 +1,4 @@
 #Ghost - Your AI Assistant
-##Foxcat Studios, 2024 - All right reserved
 
 ###Current Update:
 2o mini aw3
