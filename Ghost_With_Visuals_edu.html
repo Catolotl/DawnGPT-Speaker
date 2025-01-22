@@ -75,34 +75,81 @@
 <script>
 
 
-  //Roberto Estrada - 2024, 2025: Ghost AI
+  //Foxcat Studios - 2024, 2025: Ghost AI
 
 
   // Declare the responses object here, before the code that handles speech recognition
   const responses = {
+    "test": "Ghost AI, and FoxCat Studios 2025, All rights reserved",
+    "reboot": "Ghost AI, and FoxCat Studios 2025, All rights reserved",
 
-    "test": "Ghost A I, 2025",
-    "reboot": "Ghost A I, 2025",
+    // Casual Educational Questions
+    "what's the weather like today": "I can't check the weather, but it's always a good idea to look outside and see how the day feels!",
+    "what's the biggest planet in our solar system": "The biggest planet is Jupiter! It's so large that you could fit all of the other planets inside it!",
+    "how many continents are there": "There are seven continents: Africa, Antarctica, Asia, Europe, North America, Australia, and South America.",
+    "who invented the light bulb": "Thomas Edison is credited with inventing the practical lightbulb, though others like Nikola Tesla contributed to its development!",
+    "what's the fastest animal in the world": "The fastest animal is the peregrine falcon, which can dive at speeds of over 240 miles per hour!",
+    "how old is the earth": "The Earth is about 4.5 billion years old. That's a really long time!",
+    "what is photosynthesis": "Photosynthesis is the process by which plants turn sunlight into food, using water and carbon dioxide!",
+    "how does a rainbow form": "A rainbow forms when light is bent (or refracted) through water droplets in the air, creating a spectrum of colors!",
+    "who was the first president of the united states": "George Washington was the first president of the United States, serving from 1789 to 1797.",
+    "what is the moon made of": "The moon is made of rock and dust, and it has mountains, valleys, and large craters formed by impacts from space!",
 
-    "what is your name": "My name is Ghost, a Virtual assistant. You are running the education edition of GhostAI 2025",
-    "how are you": "I'm just a bunch of code, but I'm running smoothly!",
-    "goodbye": "Goodbye! Have a great day!",
+    // Teacher-related questions
+    "what is the name of miss rosniak's dog": "Julie Roczniak's dog is named Pikildili, and it's a Newfoundland breed!",
+    "what is miss rosniak's dog's breed": "Pikildili is a Newfoundland dog.",
+    "what is miss rosniak's son's name": "Julie Roczniak's son's name is Sebastian.",
+    "what does miss rosniak teach": "Julie Roczniak teaches Math and Science.",
+    "what is the name of miss rosnyak's dog": "Julie Roczniak's dog is named Pikildili, and it's a Newfoundland breed!",
+    "what is miss rosnyak's dog's breed": "Pikildili is a Newfoundland dog.",
+    "what is miss rosnyak's son's name": "Julie Roczniak's son's name is Sebastian.",
+    "what does miss rosnyak teach": "Julie Roczniak teaches Math and Science.",
+    
+    "what is the name of miss mcclure's child": "Briana McClure's child's name is McKinly.",
+    "what does miss mcclure teach": "Briana McClure teaches E L A and World Geography slash Ancient Civilizations.",
+    "does miss mcclure have any pets": "No, Briana McClure doesn't have any pets.",
+    "what is the name of ms mcclure's child": "Briana McClure's child's name is McKinly.",
+    "what does ms mcclure teach": "Briana McClure teaches E L A and World Geography slash Ancient Civilizations.",
+    "does ms mcclure have any pets": "No, Briana McClure doesn't have any pets.",
+
+    "what is your name": "My name is Ghost, a Virtual Assistant. You are using the education edition of GhostAI 2025, designed to help with schoolwork and learning!",
+    "how are you": "I'm a virtual assistant, always here to help you with your studies!",
+    "goodbye": "Goodbye! Keep up the great work!",
     "what time is it": () => new Date().toLocaleTimeString(),
     "what is today's date": () => new Date().toLocaleDateString(),
-    "good morning": "Good morning! Have a great start to your day!",
-    "good night": "Good night! Sleep tight!",
-    "what is your favorite movie": "Terminator",
-    "can you play music": "I cannot play music, but I can do many other things!",
-    "hey ghost": "Yes?",
-    "ghost": "Yes?",
-    "i'm sorry please only ask questions about your classes": " ",
-    "who is you'r creator": "I was carefully crafted by Roberto Estrada.",
-    "laugh": "hehehehehehehehehe",
+    "good morning": "Good morning! Ready to learn something new today?",
+    "good night": "Good night! Rest well and be ready for another day of learning!",
+    "what is your favorite movie": "I love learning about educational topics. What's your favorite subject?",
+    "can you play music": "I can't play music, but I can help you with your school questions!",
+    "hey ghost": "Yes, how can I assist with your studies?",
+    "ghost": "Yes, what would you like to learn today?",
+    "i'm sorry please only ask questions about your classes": "Let's focus on your schoolwork. What subject can I help you with?",
+    "who is your creator": "I was created by Roberto Estrada to help students like you!",
+    "laugh": "Hehe, let's keep learning fun!",
     
-    "can you help me": "Of course! I can help you with a variety of tasks! Ask a question about anything school related",
+    "can you help me": "Of course! Ask me anything about your subjects or homework!",
+    "help": "If you need assistance with a school topic, just ask! For emergencies, call 911.",
 
-    "help": "If you need to call emergency services, call 911.",
-  };
+    // Essay Writing
+    "how do i write an essay": "To write an essay, start with an introduction that includes your thesis statement, followed by body paragraphs that support your thesis with evidence and examples, and conclude with a strong conclusion that summarizes your main points.",
+    "what is a thesis statement": "A thesis statement is a sentence that states the main idea or argument of your essay. It guides the direction of your writing.",
+    "how do i start an introduction": "Start your introduction with a hook to grab the reader's attention, provide some background information, and end with your thesis statement.",
+
+    // Unit Rate
+    "what is a unit rate": "A unit rate is a rate in which the second quantity in the comparison is one unit. For example, if you drive 60 miles in 2 hours, the unit rate is 30 miles per hour.",
+    "how do i find the unit rate": "To find the unit rate, divide the first quantity by the second quantity. For example, if you have 120 miles in 4 hours, divide 120 by 4 to get 30 miles per hour.",
+
+    // Fraction -> Decimal -> Percent
+    "how do i convert a fraction to a decimal": "To convert a fraction to a decimal, divide the numerator (top number) by the denominator (bottom number).",
+    "how do i convert a decimal to a percent": "To convert a decimal to a percent, multiply the decimal by 100 and add a percent sign. For example, 0.75 becomes 75%.",
+    "how do i convert a fraction to a percent": "To convert a fraction to a percent, first convert it to a decimal by dividing the numerator by the denominator, then multiply by 100 and add a percent sign.",
+
+    // Ancient Sumer
+    "what was ancient sumer": "Ancient Sumer was a civilization in southern Mesopotamia, known for its advances in writing, architecture, and governance.",
+    "what is the significance of the sumerians": "The Sumerians are significant for creating the first known writing system, cuneiform, and for their contributions to early urban development and government structures.",
+    "what did the sumerians invent": "The Sumerians invented cuneiform writing, the wheel, and made significant advances in agriculture, mathematics, and astronomy."
+};
+
 
   // Microphone Visualizer Code
   const canvas = document.getElementById('canvas');
